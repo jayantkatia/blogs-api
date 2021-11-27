@@ -1,0 +1,24 @@
+{
+  "name": "blogs-api",
+  "version": "1.0.0",
+  "description": "API to serve blogs to users",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayantkatia/blogs-api.git"
+  },
+  "keywords": [
+    "blogs",
+    "api"
+  ],
+  "author": "Jayant Katia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jayantkatia/blogs-api/issues"
+  },
+  "homepage": "https://github.com/jayantkatia/blogs-api#readme"
+}
