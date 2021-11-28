@@ -17,19 +17,22 @@ Blogs API to server blogs to users. Sign up, write blogs, get acknowledged.
     This sets up and runs your mysql container, creates db in it.
 4. Create and populate ```.env file```
     ```env
+        # Hard coded values as per the Makefile, make changes accordingly.        
+        # For quick setup, some values are already filled.
+
         # DATABASE SERVER
-        DB_HOST=<YOUR_HOST_ADDRESS>
-        DB_USER=<YOUR_DB_USERNAME>
-        DB_PASS=<YOUR_DB_PASSWORD>
-        DB_NAME=<YOUR_DB_NAME>
-        DB_PORT=<YOUR_DB_PORT>
+        DB_HOST=127.0.0.1
+        DB_USER=root
+        DB_PASS=secret
+        DB_NAME=blogs_api
+        DB_PORT=3306
 
         # APPLICATION SERVER
-        PORT=<YOUR_SERVER_PORT>
+        PORT=3000
         SECRET=<YOUR_JWT_SECRET>
 
         # NODEMAILER
-        MAIL_FROM_NAME=<YOUR_MAIL_NAME> 
+        MAIL_FROM_NAME=📝 The Blogs Central 
         MAIL_FROM_ADDRESS=<YOUR_MAIL_ADDRESS>
         MAIL_PASS=<YOUR_MAIL_PASSWORD>
 
