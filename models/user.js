@@ -51,7 +51,6 @@ const User = db.define('user', {
     set: function (password) {
       this.setDataValue('password', password);
       this.salt = uuidv4()
-      console.log(this.securePassword(password))
       this.setDataValue('password_hash', this.securePassword(password))
     },
     validate: {

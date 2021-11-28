@@ -27,6 +27,12 @@ Blogs API to server blogs to users. Sign up, write blogs, get acknowledged.
         # APPLICATION SERVER
         PORT=<YOUR_SERVER_PORT>
         SECRET=<YOUR_JWT_SECRET>
+
+        # NODEMAILER
+        MAIL_FROM_NAME=<YOUR_MAIL_NAME> 
+        MAIL_FROM_ADDRESS=<YOUR_MAIL_ADDRESS>
+        MAIL_PASS=<YOUR_MAIL_PASSWORD>
+
     ```
 5. Run
     ```shell
