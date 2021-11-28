@@ -10,7 +10,7 @@ exports.getBlogByID = async (req, res, next, id) => {
     }
   })
   if(blog == null){
-    res.status(401).json({message: 'Blog not found'})
+    res.status(404).json({message: 'Blog not found'})
   }
   const {username} = await Users.findOne({
     attributes: ['username'],
@@ -32,7 +32,7 @@ exports.getBlogsByAuthor = async (req, res, next, id) => {
     }
   })
   if(allBlogs == null){
-    res.status(401).json({message: 'Blogs not found'})
+    res.status(404).json({message: 'Blogs not found'})
   }
   req.blogs = allBlogs
   next()
@@ -55,9 +55,9 @@ exports.getAllBlogs =  async (req, res) => {
     order: [['createdAt', 'DESC']]
   })
   if(allBlogs == null){
-    res.status(500).send({message: 'Server error, kindly retry'})
+    res.status(500).json({message: 'Server error, kindly retry'})
   }
-  res.status(200).send({
+  res.status(200).json({
     data: {
       blogs: allBlogs
     }
@@ -90,12 +90,12 @@ exports.createBlog = (req, res) => {
     content
   }).then(blog => {
     const {title, description, createdAt} = blog
-    res.send({title, description, createdAt})
+    res.status(200).json({title, description, createdAt})
   }).catch(err => {
     const errorMessages = err.errors.map(error => {
       return { message: error.message, field: error.path}
     })
-    res.send({errorMessages})
+    res.status(400).json({errorMessages})
   })
 }
 
@@ -115,7 +115,7 @@ exports.updateBlog = (req, res) => {
     const errorMessages = errors.map(error => {
       return { message: error.message, field: error.path}
     })
-    res.status(400).send({errorMessages})
+    res.status(400).json({errorMessages})
   })
 }
 
@@ -127,7 +127,6 @@ exports.deleteBlog = (req, res) => {
       blogid: req.blog.dataValues.blogid
     }
   })
-  res.status(200).json({
-    message: 'Deleted'
-  })
+  // 202 accepted, asynchronous
+  res.sendStatus(202)
 }

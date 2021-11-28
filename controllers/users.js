@@ -13,7 +13,7 @@ exports.isAuthenticated = (req, res, next) => {
   let checker = req.profile && req.auth && req.profile.userid == req.auth.id;
   if (!checker) {
     return res.status(403).json({
-      error: "ACCESS DENIED"
+      message: "Access denied",
     });
   }
   next();
@@ -24,7 +24,7 @@ exports.getUserByID = async (req, res, next, id) => {
 
   // User does not exist
   if(user === null){
-    res.status(401).send({message: 'User not found'})
+    res.status(404).json({message: 'User not found'})
   }
 
   const {username, lastname, firstname, createdAt, updatedAt, userid, email} = user
@@ -42,11 +42,11 @@ exports.getUserInfo = async (req, res) => {
   
   const {email, username, firstname, lastname, createdAt, updatedAt} = req.profile
   if (!checker) {
-    return res.status(200).send({
+    return res.status(200).json({
       username, firstname, lastname, createdAt
     });
   }
-  return res.status(200).send({
+  return res.status(200).json({
     username, email, firstname, lastname, createdAt, updatedAt
   });
 }

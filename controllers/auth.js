@@ -11,13 +11,13 @@ exports.signup = (req, res) => {
       lastname
   }).then(user => {
       const {username, firstname, lastname, fullname, email} = user
-      res.send({username, firstname, lastname, fullname, email})
+      res.status(201).json({username, firstname, lastname, fullname, email})
   }).catch(err => {
     const errors  = err.errors || Array(err)
     const errorMessages = errors.map(error => {
       return { message: error.message, field: error.path}
     })
-    res.send({errorMessages})
+    res.status(400).json({errorMessages})
   })
 }
 
@@ -27,12 +27,12 @@ exports.signin = async (req, res) => {
   
   // User does not exist
   if(user === null){
-    res.send({message: 'User not found, kindly signup first'})
+    res.status(404).json({message: 'User not found, kindly signup first'})
   }
 
   // Incorrect email/password
   if(!user.isAuthenticate(password)){
-    res.send({message: 'Incorrect email or password'})
+    res.status(400).json({message: 'Incorrect email or password'})
   }
 
   const {username, fullname, userid} = user
@@ -42,7 +42,7 @@ exports.signin = async (req, res) => {
   res.cookie('token', token, {
     expiresIn: '2 days'
   })
-  res.send({
+  res.status(200).json({
     username,
     fullname,
     email
@@ -52,7 +52,7 @@ exports.signin = async (req, res) => {
 
 exports.signout = (req, res) => {
   res.clearCookie()
-  res.send({
+  res.status(200).json({
     message: 'User sign out'
   })
 }
