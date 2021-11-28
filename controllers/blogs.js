@@ -10,7 +10,13 @@ exports.getBlogByID = async (req, res, next, id) => {
     }
   })
   if(blog == null){
-    res.status(404).json({message: 'Blog not found'})
+    res.status(404).json({ 
+      errors: [
+        {
+          msg: 'Blog not found'
+        }
+      ]
+    })
   }
   const {username} = await Users.findOne({
     attributes: ['username'],
@@ -37,7 +43,13 @@ exports.getBlogsByAuthor = async (req, res, next, id) => {
     }
   })
   if(allBlogs == null){
-    res.status(404).json({message: 'Blogs not found'})
+    res.status(404).json({ 
+      errors: [
+        {
+          msg: 'Blogs not found'
+        }
+      ]
+    })
   }
   req.blogs = allBlogs
   next()
@@ -46,7 +58,13 @@ exports.getBlogsByAuthor = async (req, res, next, id) => {
 exports.isBlogOwner = (req, res, next) => {
   const checker = req.auth && req.blog && req.auth.id == req.blog.authorid
   if(!checker){
-    res.status(403).json({message: 'Only owner can delete the blog'})
+    res.status(403).json({ 
+      errors: [
+        {
+          msg: 'Only owner can delete the blog'
+        }
+      ]
+    })
   }
   next()
 }
@@ -56,12 +74,6 @@ exports.isBlogOwner = (req, res, next) => {
 exports.getAllBlogs =  async (req, res) => {
   const allBlogs = await Blogs.findAll({
     attributes: {exclude: ['content', 'authorid', 'updatedAt']},
-    include: [
-      {
-        model: Users,
-        attributes: [['username', 'authorname']]
-      }
-    ],
     order: [['createdAt', 'DESC']]
   })
   if(allBlogs == null){
@@ -108,8 +120,8 @@ exports.createBlog = (req, res) => {
     description,
     content
   }).then(blog => {
-    const {createdAt} = blog
-    res.status(200).json({data: {createdAt}})
+    const {createdAt, blogid} = blog
+    res.status(200).json({data: {createdAt, blogid}})
   }).catch(err => {
     const errors = err.errors || Array(err)
     const errorMessages = errors.map(error => {
@@ -129,7 +141,7 @@ exports.updateBlog = (req, res) => {
   }, {
     where: {blogid}
   }).then(_ => {
-    res.status(200).json({message: 'Updated', title, description})
+    res.status(200).json({msg: 'Updated'})
   }).catch(err => {
     const errors  = err.errors || Array(err)
     const errorMessages = errors.map(error => {

@@ -1,6 +1,5 @@
 const {DataTypes} = require('sequelize')
 const db = require('../db/database');
-const Blog = require('./blog');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto')
 
@@ -75,10 +74,5 @@ User.prototype.securePassword = function(password) {
 User.prototype.isAuthenticate = function(enteredPass){
   return this.securePassword(enteredPass) === this.password_hash
 }
-
-// Associations
-User.hasMany(Blog, {
-  foreignKey: 'authorid'
-})
 
 module.exports = User

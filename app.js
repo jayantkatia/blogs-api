@@ -14,7 +14,13 @@ const blogsRoutes = require('./routes/blogs')
 
 // Database
 const db = require('./db/database')
-const User  = require('./models/user')
+
+const Blog = require('./models/blog');
+const User = require('./models/user')
+User.hasMany(Blog, {
+  foreignKey: 'authorid'
+})
+
 db.authenticate()
   .then(()=>{
     console.log('DB Connected')
