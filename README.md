@@ -1,4 +1,4 @@
-# :ok: :books: blogs-api
+#  📝 blogs-api
 Blogs API to server blogs to users. Sign up, write blogs, get acknowledged. 
 
 ### :rocket: Get Started with the Installation 
