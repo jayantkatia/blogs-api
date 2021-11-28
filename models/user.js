@@ -2,6 +2,7 @@ const {DataTypes} = require('sequelize')
 const db = require('../db/database');
 const Blog = require('./blog');
 const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto')
 
 const User = db.define('user', {
   userid: {
@@ -18,6 +19,9 @@ const User = db.define('user', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+    validate:{
+      isEmail: true
+    }
   },
   firstname: {
     type: DataTypes.STRING,
@@ -27,16 +31,20 @@ const User = db.define('user', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  salt: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   password_hash: {
     type: DataTypes.STRING,
     allowNull: false,
   },
 
-  // VIRTUALS 
+  // Virtuals
   fullname: {
     type: DataTypes.VIRTUAL,
     get(){
-      return `${this.firstName} ${this.lastName}`;
+      return `${this.firstname} ${this.lastname}`;
     }
   },
   password: {
@@ -44,6 +52,7 @@ const User = db.define('user', {
     set: function (password) {
       this.setDataValue('password', password);
       this.salt = uuidv4()
+      console.log(this.securePassword(password))
       this.setDataValue('password_hash', this.securePassword(password))
     },
     validate: {
@@ -54,19 +63,18 @@ const User = db.define('user', {
       }
     }
   }
-}, {
-  getterMethods: {
-    securePassword(password){
-      return crypto
-      .createHmac("sha256",this.salt)
-      .update(password)
-      .digest("hex")
-    },
-    isAuthenticate(enteredPass){
-      return this.securePassword(enteredPass) === this.password_hash
-    }
-  }
 })
+
+User.prototype.securePassword = function(password) {
+  return crypto
+  .createHmac("sha256",this.salt)
+  .update(password)
+  .digest("hex")
+}
+
+User.prototype.isAuthenticate = function(enteredPass){
+  return this.securePassword(enteredPass) === this.password_hash
+}
 
 User.hasMany(Blog, {
   foreignKey: 'authorid'

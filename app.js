@@ -3,6 +3,13 @@ require('dotenv').config()
 
 // imports
 const express = require('express')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+
+// Router imports
+const authRoutes = require('./routes/auth')
+const usersRoutes = require('./routes/users')
+const blogsRoutes = require('./routes/blogs')
 
 
 // Database
@@ -12,7 +19,7 @@ db.authenticate()
   .then(()=>{
     console.log('DB Connected')
     return db.sync(
-      {force: true}
+      // {force: true}
     )
   })
   .then(()=>console.log('DB Synced'))
@@ -25,10 +32,18 @@ db.authenticate()
 const app = express()
 const port = process.env.PORT || 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// Middlewares
+app.use(cors())
+app.use(express.json())
+app.use(cookieParser())
 
+// Routes
+app.use('/auth/', authRoutes)
+app.use('/users/', usersRoutes)
+app.use('/blogs/', blogsRoutes)
+
+
+// Application server listen
 app.listen(port, () => {
   console.log(`Blogs API listening at http://localhost:${port}`)
 })
