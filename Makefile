@@ -7,4 +7,8 @@ mysql-docker-interactive:
 createdb:
 	docker exec -it blogs-sql mysql -psecret -e "create database blogs_api;"
 
-.PHONY: mysql-docker-run mysql-docker-interactive createdb	
+list-port-pid:
+	lsof -ti:3000
+	
+
+.PHONY: mysql-docker-run mysql-docker-interactive createdb list-port-pid

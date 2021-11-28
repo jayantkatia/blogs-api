@@ -1,4 +1,4 @@
-const users = require('../models/user')
+const Users = require('../models/user')
 const expressJwt = require('express-jwt')
 
 // Protected routes
@@ -20,7 +20,7 @@ exports.isAuthenticated = (req, res, next) => {
 }
 
 exports.getUserByID = async (req, res, next, id) => {
-  const user = await users.findOne({where: {username: id}})
+  const user = await Users.findOne({where: {username: id}})
 
   // User does not exist
   if(user === null){
@@ -43,10 +43,14 @@ exports.getUserInfo = async (req, res) => {
   const {email, username, firstname, lastname, createdAt, updatedAt} = req.profile
   if (!checker) {
     return res.status(200).json({
-      username, firstname, lastname, createdAt
+      data: {
+        username, firstname, lastname, createdAt
+      }
     });
   }
   return res.status(200).json({
-    username, email, firstname, lastname, createdAt, updatedAt
+    data: {
+     username, email, firstname, lastname, createdAt, updatedAt
+    }
   });
 }

@@ -76,6 +76,7 @@ User.prototype.isAuthenticate = function(enteredPass){
   return this.securePassword(enteredPass) === this.password_hash
 }
 
+// Associations
 User.hasMany(Blog, {
   foreignKey: 'authorid'
 })

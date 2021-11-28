@@ -38,9 +38,9 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routes
-app.use('/auth/', authRoutes)
-app.use('/users/', usersRoutes)
-app.use('/blogs/', blogsRoutes)
+app.use('/api/auth/', authRoutes)
+app.use('/api/users/', usersRoutes)
+app.use('/api/blogs/', blogsRoutes)
 
 
 // Application server listen
