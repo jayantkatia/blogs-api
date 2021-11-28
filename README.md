@@ -47,3 +47,8 @@ Blogs API to server blogs to users. Sign up, write blogs, get acknowledged.
 ### :purple_heart: Development and Contributing
 Yes, please! Feel free to contribute, raise issues and recommend best practices.
 <a href="https://github.com/jayantkatia/blogs-api/blob/main/Makefile"> Makefile</a> is your friend.
+
+A few resources:
+- [Docker Documentation](https://docs.docker.com/get-started/overview/)
+- [Sequelize Documentation](https://sequelize.org/master/)
+- [Express Documentation](https://expressjs.com/)
